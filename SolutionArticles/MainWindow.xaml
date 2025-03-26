@@ -37,6 +37,7 @@
             <Button Content="⬅ Section Précédente" Command="{Binding SectionPrecedenteCommand}" Width="150" Margin="5"/>
             <Button Content="Ajouter au Panier" Command="{Binding AjouterAuPanierCommand}" Width="150" Margin="5"/>
             <Button Content="Afficher Facture" Command="{Binding AfficherFactureCommand}" Width="150" Margin="5"/>
+            <!-- Corriger les flèches -->
             <Button Content="Section Suivante ➡" Command="{Binding SectionSuivanteCommand}" Width="150" Margin="5"/>
         </StackPanel>
     </Grid>

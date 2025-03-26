@@ -12,12 +12,13 @@ namespace SolutionArticles
     {
         public int No { get; set; }
         public string Nom_Section { get; set; }
-        public ObservableCollection<Article> List_Articles { get; set; } = new ObservableCollection<Article>();
+        public ObservableCollection<Article> List_Articles { get; set; } 
+            = new ObservableCollection<Article>();
 
         public void AjouterArticle(Article article)
         {
-            List_Articles.Add(article);
-            article.Section = this;
+            List_Articles.Add(article); //Ajouter l'article à la liste dans la section
+            article.Section = this; //Attribuer la section à l'article
         }
 
         public void FaireInventaire(string filePath)

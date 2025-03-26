@@ -16,6 +16,7 @@ namespace SolutionArticles
 
         public decimal CalculerTaxes()
         {
+            //0.15m = (decimal)0.15
             return Prix_Total * 0.15m; // Exemple de taxe 15%
         }
 

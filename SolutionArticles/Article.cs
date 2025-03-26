@@ -29,8 +29,11 @@ namespace SolutionArticles
 
         public void Deplacer(Section nouvelleSection)
         {
-            Section?.List_Articles.Remove(this);
+            //Supprimer l'article de l'ancienne section
+            Section.List_Articles.Remove(this);
+            //Ajouter l'article dans la liste de la nouvelle section
             nouvelleSection.AjouterArticle(this);
+            //Modifier la section associé à l'article
             Section = nouvelleSection;
         }
     }

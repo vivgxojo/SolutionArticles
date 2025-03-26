@@ -18,7 +18,7 @@ namespace SolutionArticles
 
         private ObservableCollection<Section> _sections;
         private int _indexSectionActuelle;
-        private ObservableCollection<Article> _articlesAffiches;
+        private ObservableCollection<Article> _articlesAffiches; // bug ChatGPT
         private Article _articleSelectionne;
         private ObservableCollection<Article> _panier;
 
@@ -49,22 +49,22 @@ namespace SolutionArticles
         {
             // Initialisation des sections avec des articles
             _sections = new ObservableCollection<Section>
-        {
-            new Section { No = 1, Nom_Section = "Électronique", List_Articles = new ObservableCollection<Article>
-                {
-                    new Article { Code = "A1", Nom_Article = "Ordinateur", Prix_Vente = 1200m, Quantite_Stock = 5,
-                                  Section = null, Fournisseur = new Fournisseur { Nom_Entreprise = "TechCorp", Contact = "123-456-7890" }},
-                    new Article { Code = "A2", Nom_Article = "Smartphone", Prix_Vente = 800m, Quantite_Stock = 3,
-                                  Section = null, Fournisseur = new Fournisseur { Nom_Entreprise = "PhoneWorld", Contact = "987-654-3210" }}
+            {
+                new Section { No = 1, Nom_Section = "Électronique", List_Articles = new ObservableCollection<Article>
+                    {
+                        new Article { Code = "A1", Nom_Article = "Ordinateur", Prix_Vente = 1200m, Quantite_Stock = 5,
+                                      Section = null, Fournisseur = new Fournisseur { Nom_Entreprise = "TechCorp", Contact = "123-456-7890" }},
+                        new Article { Code = "A2", Nom_Article = "Smartphone", Prix_Vente = 800m, Quantite_Stock = 3,
+                                      Section = null, Fournisseur = new Fournisseur { Nom_Entreprise = "PhoneWorld", Contact = "987-654-3210" }}
+                    }
+                },
+                new Section { No = 2, Nom_Section = "Maison", List_Articles = new ObservableCollection<Article>
+                    {
+                        new Article { Code = "B1", Nom_Article = "Aspirateur", Prix_Vente = 250m, Quantite_Stock = 2,
+                                      Section = null, Fournisseur = new Fournisseur { Nom_Entreprise = "CleanPro", Contact = "555-333-1111" }}
+                    }
                 }
-            },
-            new Section { No = 2, Nom_Section = "Maison", List_Articles = new ObservableCollection<Article>
-                {
-                    new Article { Code = "B1", Nom_Article = "Aspirateur", Prix_Vente = 250m, Quantite_Stock = 2,
-                                  Section = null, Fournisseur = new Fournisseur { Nom_Entreprise = "CleanPro", Contact = "555-333-1111" }}
-                }
-            }
-        };
+            };
 
             // Lier les articles aux sections
             foreach (var section in _sections)
@@ -75,7 +75,7 @@ namespace SolutionArticles
 
             // Affichage des articles de la première section
             _indexSectionActuelle = 0;
-            ArticlesAffiches = new ObservableCollection<Article>(_sections[_indexSectionActuelle].List_Articles);
+            ArticlesAffiches = _sections[_indexSectionActuelle].List_Articles;
             Panier = new ObservableCollection<Article>();
 
             // Initialisation des commandes
@@ -90,7 +90,7 @@ namespace SolutionArticles
             if (_indexSectionActuelle > 0)
             {
                 _indexSectionActuelle--;
-                ArticlesAffiches = new ObservableCollection<Article>(_sections[_indexSectionActuelle].List_Articles);
+                ArticlesAffiches = _sections[_indexSectionActuelle].List_Articles;
             }
         }
 
@@ -99,7 +99,7 @@ namespace SolutionArticles
             if (_indexSectionActuelle < _sections.Count - 1)
             {
                 _indexSectionActuelle++;
-                ArticlesAffiches = new ObservableCollection<Article>(_sections[_indexSectionActuelle].List_Articles);
+                ArticlesAffiches = _sections[_indexSectionActuelle].List_Articles;
             }
         }
 
@@ -129,6 +129,7 @@ namespace SolutionArticles
 
         private void AfficherFacture()
         {
+            //TODO : Corriger pour utiliser la classe Facture 
             decimal total = Panier.Sum(a => a.Prix_Vente);
             decimal taxes = total * 0.15m;
             decimal totalAvecTaxes = total + taxes;
