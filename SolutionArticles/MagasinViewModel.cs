@@ -18,14 +18,17 @@ namespace SolutionArticles
 
         private ObservableCollection<Section> _sections;
         private int _indexSectionActuelle;
-        private ObservableCollection<Article> _articlesAffiches; // bug ChatGPT
+        private ObservableCollection<Article> _articlesAffiches; 
         private Article _articleSelectionne;
         private ObservableCollection<Article> _panier;
 
         public ObservableCollection<Article> ArticlesAffiches
         {
             get => _articlesAffiches;
-            set { _articlesAffiches = value; OnPropertyChanged(nameof(ArticlesAffiches)); }
+            set { _articlesAffiches = value; 
+                OnPropertyChanged(nameof(ArticlesAffiches));
+                OnPropertyChanged(nameof(ArticleSelectionne));
+            }
         }
 
         public Article ArticleSelectionne
@@ -116,31 +119,47 @@ namespace SolutionArticles
                     Quantite_Stock = 1
                 });
 
-                OnPropertyChanged(nameof(ArticlesAffiches));
-
+                //OnPropertyChanged(nameof(ArticlesAffiches));
+               
                 if (ArticleSelectionne.Quantite_Stock == 0)
                 {
                     MessageBox.Show($"Stock épuisé pour {ArticleSelectionne.Nom_Article}.\n" +
                                     $"Contactez le fournisseur : {ArticleSelectionne.Fournisseur.Nom_Entreprise} - {ArticleSelectionne.Fournisseur.Contact}",
                                     "Alerte Stock", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
+
+                //FORCER LA MISE À JOUR : ceci est un patch, pas l'idéal.
+                //LA BONNE FAÇON EST en modifiant Article.
+                //ArticlesAffiches = new ObservableCollection<Article>();
+                //ArticlesAffiches = _sections[_indexSectionActuelle].List_Articles;
             }
         }
-
-        private void AfficherFacture()
+        
+        private void AfficherFacture() 
         {
-            //TODO : Corriger pour utiliser la classe Facture 
-            decimal total = Panier.Sum(a => a.Prix_Vente);
-            decimal taxes = total * 0.15m;
-            decimal totalAvecTaxes = total + taxes;
+            // CODE CORRIGÉ POUR UTILISER FACTURES:
 
+            // Création de la facture avec les articles du panier
+            Factures facture = new Factures
+            {
+                Liste_Articles = Panier.ToList(),
+                Prix_Total = Panier.Sum(a => a.Prix_Vente),
+                Date = DateTime.Now // Ajout de la date actuelle
+            };
+
+            // Calcul des taxes et du total
+            decimal taxes = facture.CalculerTaxes();
+            decimal totalAvecTaxes = facture.CalculerTotal();
+
+            // Construction du message
             string message = "Facture :\n";
-            foreach (var article in Panier)
+            foreach (var article in facture.Liste_Articles)
             {
                 message += $"{article.Nom_Article} - {article.Prix_Vente:C}\n";
             }
-            message += $"\nTotal: {total:C}\nTaxes: {taxes:C}\nTotal à payer: {totalAvecTaxes:C}";
+            message += $"\nTotal: {facture.Prix_Total:C}\nTaxes: {taxes:C}\nTotal à payer: {totalAvecTaxes:C}";
 
+            // Affichage de la facture
             MessageBox.Show(message, "Facture", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
